@@ -2,6 +2,7 @@ const { Scenes, Markup } = require('telegraf');
 const test = require('../tests/test0.json');
 const { CMD_TEXT } = require('./consts');
 const { default: axios } = require('axios');
+const { statsUpdate } = require('./spreadsheet');
 
 const testScene = new Scenes.BaseScene('test');
 
@@ -20,18 +21,27 @@ testScene.action('next', async (ctx) => {
     await sendNextTask(ctx);
 });
 
+testScene.action('answer', async (ctx) => {
+    const id = ctx.from.id;
+    const isCorrect = true; 
+    
+    await statsUpdate(id, isCorrect);
+    
+    await sendNextTask(ctx);
+});
+
 async function sendNextTask(ctx) {
     const currentTask = test[currentTaskNum];
     const taskUrl = currentTask.task;
     const answer = currentTask.answer;
-
+    console.log(answer,currentTaskNum);
     try{
-        console.log(taskUrl);
+        
         
         const response = await axios.get(taskUrl, {
             responseType: "arraybuffer",
         });
-        console.log("response",response);
+        
         const photo = Buffer.from(response.data, "binary");
 
         ctx.replyWithPhoto(

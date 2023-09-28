@@ -33,9 +33,34 @@ async function saveId(id) {
     } catch (error) {
         console.error(`Error while saving ID: ${id}`, error);
     }
-  }
+}
 
+async function statsUpdate(id, is_correct) {
+    saveId(id)
+    try {
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
+        const rows = await sheet.getRows();
 
-  module.exports = { saveId };
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            console.log(id, row.tgid);
+            if (row.tgid === id) {
+                if (is_correct) {
+                    row.correct_answers += 1;
+                }
+                row.answers += 1;
+                await row.save();
+                break;
+            }
+        }
+
+        console.log(`Stats updated for ID: ${id}`);
+    } catch (error) {
+        console.error(`Error while updating stats for ID: ${id}, error`);
+    }
+}
+
+module.exports = { saveId, statsUpdate };
 
 
