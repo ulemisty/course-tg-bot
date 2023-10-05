@@ -6,13 +6,13 @@ const { statsUpdate } = require('./spreadsheet');
 
 const testScene = new Scenes.BaseScene('test');
 
-let currentTaskNum = -1;
+let currentTaskNum = 0;
 
 testScene.enter(async (ctx) => {
     ctx.reply("Это бесплатный тест для испытания бота в нем 10 заданий из нашего курса, Удачи!", Markup.inlineKeyboard([
         [Markup.button.callback("Начать тест", 'next')],[Markup.button.callback(CMD_TEXT.menu, 'menu')],
     ]).resize())
-    currentTaskNum = -1;
+    currentTaskNum = 0;
 });
 
 testScene.action('next', async (ctx) => {
@@ -21,9 +21,12 @@ testScene.action('next', async (ctx) => {
     await sendNextTask(ctx);
 });
 
+ 
+
 testScene.action('answer', async (ctx) => {
-    const id = ctx.from.id;
-    const isCorrect = true; 
+    ctx.scene.enter('answer');
+    const id = ctx.from.id; 
+    
     
     await statsUpdate(id, isCorrect);
     
@@ -34,7 +37,7 @@ async function sendNextTask(ctx) {
     const currentTask = test[currentTaskNum];
     const taskUrl = currentTask.task;
     const answer = currentTask.answer;
-    console.log(answer,currentTaskNum);
+    console.log(currentTask);
     try{
         
         

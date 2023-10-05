@@ -4,8 +4,11 @@ const { log } = require('console');
 const { CMD_TEXT } = require('./consts');
 const { mainMenuScene } = require('./mainMenuScene');
 const { testScene } = require('./testScene');
+const { answerScene } = require('./answerScene');
+const { statsScene } = require('./statsScene');
 
-const stage = new Scenes.Stage().register(mainMenuScene, testScene)
+
+const stage = new Scenes.Stage().register(mainMenuScene, testScene, answerScene, statsScene)
 
 function setupBot(bot) {
     bot.use(session({ collectionName: "sessions" }));

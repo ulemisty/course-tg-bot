@@ -31,36 +31,77 @@ async function saveId(id) {
   
         console.log(`ID: ${id} saved in Google Sheets`);
     } catch (error) {
-        console.error(`Error while saving ID: ${id}`, error);
+        console.error(`Error while saving ID: ${id}, error`);
+    }
+}
+
+async function checkId(id) {
+    try {
+      await doc.loadInfo();
+      const sheet = doc.sheetsByIndex[0];
+      const rows = await sheet.getRows();
+  
+      for (let i = 0; i < rows.length; i++) {
+        console.log(rows[i].get('tgid') == id);
+        if (rows[i].get('tgid') == id) return true;
+      }
+  
+      return false;
+    } catch (error) {
+      console.error(`Error while checking ID: ${id}, error`);
+      return false;
     }
 }
 
 async function statsUpdate(id, is_correct) {
-    saveId(id)
+    //saveId(id)
     try {
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[0];
         const rows = await sheet.getRows();
-
         for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            console.log(id, row.tgid);
-            if (row.tgid === id) {
-                if (is_correct) {
-                    row.correct_answers += 1;
+            console.log(rows[i].get('tgid'));
+            if (rows[i].get('tgid') == id){
+                rows[i].set('answers', Number(rows[i].get('answers'))+1);
+                await rows[i].save()
+                if(is_correct){
+                    rows[i].set('correct_answers', Number(rows[i].get('correct_answers'))+1);
+                    await rows[i].save();
+
+                }else{
+                    rows[i].set('mistakes', Number(rows[i].get('mistakes'))+1);
+                    await rows[i].save()
                 }
-                row.answers += 1;
-                await row.save();
-                break;
             }
         }
-
+        
         console.log(`Stats updated for ID: ${id}`);
     } catch (error) {
         console.error(`Error while updating stats for ID: ${id}, error`);
     }
 }
 
-module.exports = { saveId, statsUpdate };
+async function getStats(id) {
+    try {
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
+        const rows = await sheet.getRows();
 
+        for (let i = 0; i < rows.length; i++) {
+            
+            if (rows[i].get('tgid') == id) {
+                const correctAnswers = rows[i].get('correct_answers');
+                const totalAnswers = rows[i].get('answers');
+                console.log(correctAnswers, totalAnswers);
+                return { correctAnswers, totalAnswers };
+            }
+        }
 
+        return null;
+    } catch (error) {
+        console.error(`Error while retrieving stats for ID: ${id}`, error);
+        return null;
+    }
+}
+
+module.exports = { saveId, statsUpdate, checkId, getStats };
