@@ -33,17 +33,18 @@ mainMenuScene.action('tests', (ctx) => {
 });
 
 mainMenuScene.action('about', (ctx) => {
-    ctx.editMessageText("дабдаб", Markup.inlineKeyboard([
+    ctx.editMessageText("Подробнее о курсе можно узнать в @sliv_noo", Markup.inlineKeyboard([
         [Markup.button.callback(CMD_TEXT.menu, 'menu')],
     ]).resize())
 });
 
 mainMenuScene.action('freetest', (ctx) => {
+    ctx.session.current_task = 1;
     ctx.scene.enter('test');
 });
 
 mainMenuScene.action('buy', (ctx) => {
-    ctx.editMessageText("купитькупитькупитькупить!!!", Markup.inlineKeyboard([
+    ctx.editMessageText("Чтобы купить курс нанишите @Nooooooo5o", Markup.inlineKeyboard([
         [Markup.button.callback(CMD_TEXT.menu, 'menu')],
     ]).resize())
 });
