@@ -10,9 +10,11 @@ testScene.enter(async (ctx) => {
     if(ctx.session.current_task <= 1){
         ctx.reply("Это бесплатный тест для испытания бота в нем 10 заданий из нашего курса, Удачи!", Markup.inlineKeyboard([
             [Markup.button.callback("Начать тест", 'next')],[Markup.button.callback(CMD_TEXT.menu, 'menu')],
-        ]).resize())
+        ]).resize());
+        ctx.session.testCorrects = 0;
+    }else if(ctx.session.current_task > 10){
+        ctx.scene.enter('result');
     }else{
-        
         await sendNextTask(ctx, ctx.session.current_task);
     }
     
@@ -20,13 +22,25 @@ testScene.enter(async (ctx) => {
 });
 
 testScene.action('next', async (ctx) => {
-    
-    await sendNextTask(ctx, ctx.session.current_task);
+    if(ctx.session.current_task > 10){
+        ctx.scene.enter('result');
+    }else{
+        await sendNextTask(ctx, ctx.session.current_task);
+    }
 });
 
 testScene.action('prev', async (ctx) => {
-    ctx.session.current_task -= 1;
-    await sendNextTask(ctx, ctx.session.current_task);
+    if(ctx.session.current_task >= 3){
+        ctx.session.current_task -= 2;
+        await sendNextTask(ctx, ctx.session.current_task);
+    }else{
+        ctx.scene.enter("mainMenu");
+    }
+});
+
+
+testScene.action('pin', async (ctx) => {
+    ctx.reply("Пока что закрепить нельзя")
 });
 
 testScene.action('answer', async (ctx) => {
@@ -40,11 +54,12 @@ testScene.action('answer', async (ctx) => {
 });
 
 async function sendNextTask(ctx, currentTaskNum) {
+    
     ctx.session.current_task++;
     const currentTask = test[currentTaskNum];
     const taskUrl = currentTask.task;
     const answer = currentTask.answer;
-    console.log(currentTask);
+    console.log(currentTask.answer, ctx.session.current_task);
     try {
         const response = await axios.get(taskUrl, {
             responseType: "arraybuffer",

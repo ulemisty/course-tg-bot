@@ -18,6 +18,7 @@ answerScene.hears(/.+/, async (ctx) => {
     console.log(ctx.session.curUserAnswer, correctAnswer);
     if(ctx.session.curUserAnswer == correctAnswer){
         ctx.reply("Правильно!")
+        ctx.session.testCorrects += 1;
         await statsUpdate(id, 1);
         ctx.scene.enter("test");
     }else{
