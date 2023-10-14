@@ -1,7 +1,5 @@
 const { Scenes, Markup } = require('telegraf');
-const test = require('../tests/test0.json');
 const { CMD_TEXT } = require('./consts');
-const { default: axios } = require('axios');
 const { getStats } = require('./spreadsheet');
 
 const statsScene = new Scenes.BaseScene('stats');

@@ -1,15 +1,13 @@
-const { Markup, Scenes, session } = require('telegraf');
-const { saveId } = require('./spreadsheet');
-const { log } = require('console');
-const { CMD_TEXT } = require('./consts');
+const { Scenes, session } = require('telegraf');
 const { mainMenuScene } = require('./mainMenuScene');
-const { testScene } = require('./testScene');
 const { answerScene } = require('./answerScene');
 const { statsScene } = require('./statsScene');
 const { testResultsScene } = require('./testResultsScene');
+const { testSelectionScene } = require('./testSelectionScene');
+const { testSlovingScene } = require('./testSlovingScene');
 
 
-const stage = new Scenes.Stage().register(mainMenuScene, testScene, answerScene, statsScene, testResultsScene)
+const stage = new Scenes.Stage().register(mainMenuScene, answerScene, statsScene, testResultsScene, testSelectionScene, testSlovingScene)
 
 function setupBot(bot) {
     bot.use(session({ collectionName: "sessions" }));

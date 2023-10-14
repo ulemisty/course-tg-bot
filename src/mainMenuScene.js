@@ -1,15 +1,16 @@
 const { Markup, Scenes } = require('telegraf');
 const { CMD_TEXT } = require('./consts');
-const { checkId } = require('./spreadsheet')
+const { checkId, saveId } = require('./spreadsheet')
 
 const mainMenuScene = new Scenes.BaseScene('mainMenu');
 
-mainMenuScene.enter((ctx) => {
-    console.log(checkId(ctx.from.id));
-    if (checkId(ctx.from.id) == true) {
+mainMenuScene.enter(async(ctx) => {
+    //saveId(ctx.from.id)
+    ctx.session.is_payed = await checkId(ctx.from.id);
+    if (ctx.session.is_payed) {
         ctx.reply("Главное меню", Markup.inlineKeyboard([
             [Markup.button.callback("📊 Статистика", 'stats'), Markup.button.callback("❌ Ошибки", 'mistakes')],
-            [Markup.button.callback("📃 Тесты", 'tests')],
+            [Markup.button.callback("📃 Тесты", 'testselection')],
         ]).resize());
     }else{
         ctx.reply("Главное меню", Markup.inlineKeyboard([
@@ -25,11 +26,12 @@ mainMenuScene.action('stats', (ctx) => {
 });
 
 mainMenuScene.action('mistakes', (ctx) => {
-    ctx.scene.enter('mistakes');
+    ctx.reply("ошибки пока недоступны(")
+    ctx.scene.reenter(); 
 });
 
-mainMenuScene.action('tests', (ctx) => {
-    ctx.scene.enter('tests');
+mainMenuScene.action('testselection', (ctx) => {
+    ctx.scene.enter('testselection');
 });
 
 mainMenuScene.action('about', (ctx) => {
@@ -39,8 +41,9 @@ mainMenuScene.action('about', (ctx) => {
 });
 
 mainMenuScene.action('freetest', (ctx) => {
-    ctx.session.current_task = 1;
-    ctx.scene.enter('test');
+    ctx.session.cur_test = 0;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
 });
 
 mainMenuScene.action('buy', (ctx) => {
