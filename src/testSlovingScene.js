@@ -12,7 +12,7 @@ testSlovingScene.enter(async (ctx) => {
     test = require(testPath); 
 
     if (ctx.session.current_task < 0) {
-        ctx.reply("короче тест", Markup.inlineKeyboard([
+        ctx.reply(`📝 Начинаем тест! Всего заданий: ${test.length}. Удачи!`, Markup.inlineKeyboard([
             [Markup.button.callback("Начать тест", 'next')], [Markup.button.callback(CMD_TEXT.menu, 'menu')],
         ]).resize());
         ctx.session.testCorrects = 0;
@@ -41,7 +41,7 @@ testSlovingScene.action('prev', async (ctx) => {
 });
 
 testSlovingScene.action('pin', async (ctx) => {
-    ctx.reply("Пока что закрепить нельзя");
+    ctx.reply("⚠️ Пока что нельзя закрепить задание");
 });
 
 testSlovingScene.action('answer', async (ctx) => {
@@ -55,7 +55,7 @@ async function sendNextTask(ctx) {
     const answer = currentTask.answer;
     
     try {
-        const response = await axios.get(taskUrl, {
+        const response = await axios.get(taskUrl, { 
             responseType: "arraybuffer",
         });
 
@@ -64,7 +64,7 @@ async function sendNextTask(ctx) {
         ctx.replyWithPhoto(
             { source: photo },
             {
-                caption: `Задание ${ctx.session.current_task + 1}`,
+                caption: `📝 Задание ${ctx.session.current_task + 1}`,
                 reply_markup: {
                     inline_keyboard: [
                         [{ text: "Ответить ✅", callback_data: "answer" }],
