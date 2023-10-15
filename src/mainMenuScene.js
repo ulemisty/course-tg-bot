@@ -1,19 +1,27 @@
 const { Markup, Scenes } = require('telegraf');
 const { CMD_TEXT } = require('./consts');
-const { checkId, saveId } = require('./spreadsheet')
+const { checkId, saveId, checkUsername, saveUsername, initByUsername } = require('./spreadsheet')
 
 const mainMenuScene = new Scenes.BaseScene('mainMenu');
 
 mainMenuScene.enter(async(ctx) => {
     //saveId(ctx.from.id)
     ctx.session.is_payed = await checkId(ctx.from.id);
-    if (ctx.session.is_payed) {
-        ctx.reply("Главное меню", Markup.inlineKeyboard([
+
+    if((ctx.session.is_payed) == false){
+        ctx.session.is_payed = await checkUsername(ctx.from.username);
+        if(ctx.session.is_payed){
+            initByUsername(ctx.from.username, ctx.from.id)
+        }
+    }
+    
+    if ( ctx.session.is_payed) {
+        ctx.reply(`Добро пожаловать, ${ctx.from.first_name}\n\n🏠 Главное меню 🏠`, Markup.inlineKeyboard([
             [Markup.button.callback("📊 Статистика", 'stats'), Markup.button.callback("❌ Ошибки", 'mistakes')],
             [Markup.button.callback("📃 Тесты", 'testselection')],
         ]).resize());
     }else{
-        ctx.reply("Главное меню", Markup.inlineKeyboard([
+        ctx.reply(`Добро пожаловать, ${ctx.from.first_name}\n\n🏠 Главное меню 🏠`, Markup.inlineKeyboard([
             [Markup.button.callback(CMD_TEXT.buy, 'buy')],
             [Markup.button.callback(CMD_TEXT.about, 'about'), Markup.button.callback(CMD_TEXT.freetest, 'freetest')],
         ]).resize());

@@ -53,6 +53,47 @@ async function checkId(id) {
     }
 }
 
+async function checkUsername(username) {
+    try {
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
+        const rows = await sheet.getRows();
+
+        for (let i = 0; i < rows.length; i++) {
+            console.log(rows[i].get('username') === username);
+            if (rows[i].get('username') === username) return true;
+        }
+
+        return false;
+    } catch (error) {
+        console.error(`Error while checking Username: ${username}, error`);
+        return false;
+    }
+}
+
+async function initByUsername(username, id) {
+    try {
+        await doc.loadInfo();
+        const sheet = doc.sheetsByIndex[0];
+        const rows = await sheet.getRows();
+
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].get('username') === username) {
+                rows[i].set('tgid', id);
+                rows[i].set('correct_answers', 0);
+                rows[i].set('answers', 0);
+                await rows[i].save();
+                console.log(`ID: ${id} saved for Username: ${username}`);
+                return;
+            }
+        }
+
+        console.log(`No matching Username found for saving ID: ${id}`);
+    } catch (error) {
+        console.error(`Error while saving ID: ${id} for Username: ${username}, error`);
+    }
+}
+
 async function statsUpdate(id, is_correct) {
     //saveId(id)
     try {
@@ -81,6 +122,7 @@ async function statsUpdate(id, is_correct) {
     }
 }
 
+
 async function getStats(id) {
     try {
         await doc.loadInfo();
@@ -104,4 +146,4 @@ async function getStats(id) {
     }
 }
 
-module.exports = { saveId, statsUpdate, checkId, getStats };
+module.exports = { saveId, statsUpdate, checkId, getStats, checkUsername, initByUsername };
