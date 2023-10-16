@@ -6,11 +6,19 @@ const testSelectionScene = new Scenes.BaseScene('testselection');
 testSelectionScene.enter(async (ctx) => {
     ctx.reply('Выберете тест', Markup.inlineKeyboard(
         [
-            [Markup.button.callback('🔬 Биосинтез белка 1', 'test1'),
-            Markup.button.callback('🔬 Биосинтез белка 2', 'test2')]
-        ,
-            [Markup.button.callback('🧫 Деление клетки 1', 'test3'),
+            [Markup.button.callback('🧫 Деление клетки 1', 'test2'),//text
             Markup.button.callback('🧫 Деление клетки 2', 'test1')]
+        ,
+            [Markup.button.callback('🔞 Размножение', 'test3'),
+            Markup.button.callback('🛝 Гаметогенез', 'test8')]
+        ,
+            [Markup.button.callback('✨ Биосинтез белка 1', 'test4'),//text
+            Markup.button.callback('✨ Биосинтез белкаи 2', 'test5')]
+        ,
+            [Markup.button.callback('😶‍🌫️ Онтогенез', 'test6'),
+            Markup.button.callback('🦠 Бактерии и вирусы', 'test7')]
+        ,
+            [Markup.button.callback('🧬 Генетика', 'test9')]
         ,
             [Markup.button.callback(CMD_TEXT.menu, 'menu')]
     ]).resize())
@@ -23,11 +31,10 @@ testSelectionScene.action('test1', (ctx) => {
     ctx.session.current_task = -1;
 });
 
-testSelectionScene.action('test2', (ctx) => {
+testSelectionScene.action('test2', (ctx) => {//
     ctx.deleteMessage();
-    ctx.session.cur_test = 2;
-    ctx.scene.enter('testsloving');
-    ctx.session.current_task = -1;
+    ctx.reply("Этот тест еще не добавлен")
+    ctx.scene.reenter(); 
 });
 
 testSelectionScene.action('test3', (ctx) => {
@@ -39,10 +46,46 @@ testSelectionScene.action('test3', (ctx) => {
 
 testSelectionScene.action('test4', (ctx) => {
     ctx.deleteMessage();
-    ctx.session.cur_test = 4;
+    ctx.reply("Этот тест еще не добавлен")
+    ctx.scene.reenter(); 
+});
+
+testSelectionScene.action('test5', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 5;
     ctx.scene.enter('testsloving');
     ctx.session.current_task = -1;
 });
+
+testSelectionScene.action('test6', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 6;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test7', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 7;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test8', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 8;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test9', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 9;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+
 
 testSelectionScene.action('menu', (ctx) => {
     ctx.deleteMessage(); 
