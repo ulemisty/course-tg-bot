@@ -21,12 +21,12 @@ answerScene.hears(/.+/, async (ctx) => {
     ctx.session.curUserAnswer = ctx.message.text;
     console.log(ctx.session.curUserAnswer, correctAnswer);
     if(ctx.session.curUserAnswer == correctAnswer){
-        ctx.reply("Правильно!")
+        ctx.reply("🎉 Правильно!")
         ctx.session.testCorrects += 1;
         await statsUpdate(id, 1);
         ctx.scene.enter("testsloving");
     }else{
-        ctx.reply("Неправильно!")
+        ctx.reply(`🙅 Неправильно! \n\n Правильный ответ: ${correctAnswer}`)
         await statsUpdate(id, 0);
         ctx.scene.enter("testsloving");
     }

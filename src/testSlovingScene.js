@@ -32,7 +32,7 @@ testSlovingScene.action('next', async (ctx) => {
 });
 
 testSlovingScene.action('prev', async (ctx) => {
-    if (ctx.session.current_task >= 3) {
+    if (ctx.session.current_task >= 1) {
         ctx.session.current_task -= 2;
         await sendNextTask(ctx);
     } else {
