@@ -52,7 +52,6 @@ async function sendNextTask(ctx) {
     ctx.session.current_task++;
     const currentTask = test[ctx.session.current_task];
     const taskUrl = currentTask.task[0];
-    const answer = currentTask.answer;
     
     try {
         const response = await axios.get(taskUrl, { 

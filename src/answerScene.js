@@ -19,7 +19,7 @@ answerScene.hears(/.+/, async (ctx) => {
     const id = ctx.from.id;
 
     ctx.session.curUserAnswer = ctx.message.text;
-    console.log(ctx.session.curUserAnswer, correctAnswer);
+    
     if(ctx.session.curUserAnswer == correctAnswer){
         ctx.reply("🎉 Правильно!")
         ctx.session.testCorrects += 1;

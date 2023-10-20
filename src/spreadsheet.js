@@ -60,7 +60,6 @@ async function checkUsername(username) {
         const rows = await sheet.getRows();
 
         for (let i = 0; i < rows.length; i++) {
-            console.log(rows[i].get('username') === username);
             if (rows[i].get('username') === username) return true;
         }
 

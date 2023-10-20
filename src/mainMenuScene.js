@@ -1,11 +1,11 @@
 const { Markup, Scenes } = require('telegraf');
 const { CMD_TEXT } = require('./consts');
-const { checkId, saveId, checkUsername, saveUsername, initByUsername } = require('./spreadsheet')
+const { checkId, checkUsername, initByUsername } = require('./spreadsheet')
 
 const mainMenuScene = new Scenes.BaseScene('mainMenu');
 
 mainMenuScene.enter(async(ctx) => {
-    //saveId(ctx.from.id)
+    
     ctx.session.is_payed = await checkId(ctx.from.id);
 
     if((ctx.session.is_payed) == false){
@@ -50,8 +50,9 @@ mainMenuScene.action('about', (ctx) => {
 
 mainMenuScene.action('freetest', (ctx) => {
     ctx.session.cur_test = 0;
-    ctx.scene.enter('testsloving');
     ctx.session.current_task = -1;
+    ctx.scene.enter('testsloving');
+    
 });
 
 mainMenuScene.action('buy', (ctx) => {
