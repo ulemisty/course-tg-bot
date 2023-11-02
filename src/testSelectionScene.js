@@ -18,8 +18,13 @@ testSelectionScene.enter(async (ctx) => {
             [Markup.button.callback('😶‍🌫️ Онтогенез', 'test6'),
             Markup.button.callback('🦠 Бактерии и вирусы', 'test7')]
         ,
-            [Markup.button.callback('🧬 Генетика', 'test9')]
+            [Markup.button.callback('🧬 Генетика 1', 'test9')]
         ,
+            [Markup.button.callback('🧬 Генетика 2', 'test10')]
+        ,
+            [Markup.button.callback('🧬 Генетика 3', 'test11')]
+        ,
+
             [Markup.button.callback(CMD_TEXT.menu, 'menu')]
     ]).resize())
 });
@@ -81,6 +86,20 @@ testSelectionScene.action('test8', (ctx) => {
 testSelectionScene.action('test9', (ctx) => {
     ctx.deleteMessage();
     ctx.session.cur_test = 9;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test10', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 10;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test11', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 11;
     ctx.scene.enter('testsloving');
     ctx.session.current_task = -1;
 });
