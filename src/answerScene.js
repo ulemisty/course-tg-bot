@@ -9,9 +9,7 @@ answerScene.enter(async (ctx) => {
     if(currentTestNum){
         test = require(testPath); 
     }
-    
     ctx.reply("Введите ваш ответ:");
-    
 });
 
 answerScene.hears(/.+/, async (ctx) => {
@@ -20,7 +18,7 @@ answerScene.hears(/.+/, async (ctx) => {
 
     ctx.session.curUserAnswer = ctx.message.text;
     
-    if(ctx.session.curUserAnswer == correctAnswer){
+    if(ctx.session.curUserAnswer.toLowerCase() == correctAnswer.toLowerCase()){
         ctx.reply("🎉 Правильно!")
         ctx.session.testCorrects += 1;
         await statsUpdate(id, 1);
@@ -31,7 +29,5 @@ answerScene.hears(/.+/, async (ctx) => {
         ctx.scene.enter("testsloving");
     }
 });
-
-
 
 module.exports = { answerScene }; 
