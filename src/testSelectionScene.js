@@ -4,29 +4,18 @@ const { CMD_TEXT } = require('./consts');
 const testSelectionScene = new Scenes.BaseScene('testselection');
 
 testSelectionScene.enter(async (ctx) => {
-    ctx.reply('Выберете тест', Markup.inlineKeyboard(
-        [
-            [Markup.button.callback('🧫 Деление клетки 1', 'test2'),//text
-            Markup.button.callback('🧫 Деление клетки 2', 'test1')]
-        ,
-            [Markup.button.callback('🔞 Размножение', 'test3'),
-            Markup.button.callback('🛝 Гаметогенез', 'test8')]
-        ,
-            [Markup.button.callback('✨ Биосинтез белка 1', 'test4'),//text
-            Markup.button.callback('✨ Биосинтез белкаи 2', 'test5')]
-        ,
-            [Markup.button.callback('😶‍🌫️ Онтогенез', 'test6'),
-            Markup.button.callback('🦠 Бактерии и вирусы', 'test7')]
-        ,
-            [Markup.button.callback('🧬 Генетика 1', 'test9')]
-        ,
-            [Markup.button.callback('🧬 Генетика 2', 'test10')]
-        ,
-            [Markup.button.callback('🧬 Генетика 3', 'test11')]
-        ,
+    const testKeyboard = Markup.inlineKeyboard([
+        [Markup.button.callback('🧫 Деление клетки 1', 'test2'), Markup.button.callback('🧫 Деление клетки 2', 'test1')],
+        [Markup.button.callback('🔞 Размножение', 'test3'), Markup.button.callback('🛝 Гаметогенез', 'test8')],
+        [Markup.button.callback('✨ Биосинтез белка 1', 'test4'), Markup.button.callback('✨ Биосинтез белка 2', 'test5')],
+        [Markup.button.callback('😶‍🌫️ Онтогенез', 'test6'), Markup.button.callback('🦠 Бактерии и вирусы', 'test7')],
+        [Markup.button.callback('🧬 Генетика 1', 'test9')],
+        [Markup.button.callback('🧬 Генетика 2', 'test10')],
+        [Markup.button.callback('🧬 Генетика 3', 'test11')],
+        [Markup.button.callback(CMD_TEXT.menu, 'menu')]
+    ]).resize();
 
-            [Markup.button.callback(CMD_TEXT.menu, 'menu')]
-    ]).resize())
+    ctx.reply('Выберете тест', testKeyboard);
 });
 
 testSelectionScene.action('test1', (ctx) => {
@@ -92,16 +81,14 @@ testSelectionScene.action('test9', (ctx) => {
 
 testSelectionScene.action('test10', (ctx) => {
     ctx.deleteMessage();
-    ctx.session.cur_test = 10;
-    ctx.scene.enter('testsloving');
-    ctx.session.current_task = -1;
+    ctx.reply("Этот тест еще не добавлен")
+    ctx.scene.reenter(); 
 });
 
 testSelectionScene.action('test11', (ctx) => {
     ctx.deleteMessage();
-    ctx.session.cur_test = 11;
-    ctx.scene.enter('testsloving');
-    ctx.session.current_task = -1;
+    ctx.reply("Этот тест еще не добавлен")
+    ctx.scene.reenter(); 
 });
 
 
