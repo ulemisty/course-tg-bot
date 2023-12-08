@@ -5,13 +5,18 @@ const testSelectionScene = new Scenes.BaseScene('testselection');
 
 testSelectionScene.enter(async (ctx) => {
     const testKeyboard = Markup.inlineKeyboard([
-        [Markup.button.callback('🧫 Деление клетки 1', 'test2'), Markup.button.callback('🧫 Деление клетки 2', 'test1')],
+        [ Markup.button.callback('🧫 Деление клетки 2', 'test1')],
         [Markup.button.callback('🔞 Размножение', 'test3'), Markup.button.callback('🛝 Гаметогенез', 'test8')],
-        [Markup.button.callback('✨ Биосинтез белка 1', 'test4'), Markup.button.callback('✨ Биосинтез белка 2', 'test5')],
+        [Markup.button.callback('✨ Биосинтез белка 2', 'test5')],
         [Markup.button.callback('😶‍🌫️ Онтогенез', 'test6'), Markup.button.callback('🦠 Бактерии и вирусы', 'test7')],
         [Markup.button.callback('🧬 Генетика 1', 'test9')],
-        [Markup.button.callback('🧬 Генетика 2', 'test10')],
-        [Markup.button.callback('🧬 Генетика 3', 'test11')],
+        [Markup.button.callback('🧬 Зад генетика 2', 'test22')],
+        [Markup.button.callback('🫄 Генетика 1-3 (повторение)', 'test24')],
+        [Markup.button.callback('🧑‍🦽 Генетика 5', 'test20')],
+        [Markup.button.callback('🧑‍🦽 Генетика 4', 'test12')],
+        [Markup.button.callback('🧑‍🦽 Генетика 5', 'test20')],
+        [Markup.button.callback('🧑‍🦽 Генетика 6', 'test21')],
+        [Markup.button.callback('🥸 Селекция и биотехнология', 'test30')],
         [Markup.button.callback(CMD_TEXT.menu, 'menu')]
     ]).resize();
 
@@ -25,10 +30,18 @@ testSelectionScene.action('test1', (ctx) => {
     ctx.session.current_task = -1;
 });
 
-testSelectionScene.action('test2', (ctx) => {//
+testSelectionScene.action('test24', (ctx) => {
     ctx.deleteMessage();
-    ctx.reply("Этот тест еще не добавлен")
-    ctx.scene.reenter(); 
+    ctx.session.cur_test = 24;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test22', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 22;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
 });
 
 testSelectionScene.action('test3', (ctx) => {
@@ -36,12 +49,6 @@ testSelectionScene.action('test3', (ctx) => {
     ctx.session.cur_test = 3;
     ctx.scene.enter('testsloving');
     ctx.session.current_task = -1;
-});
-
-testSelectionScene.action('test4', (ctx) => {
-    ctx.deleteMessage();
-    ctx.reply("Этот тест еще не добавлен")
-    ctx.scene.reenter(); 
 });
 
 testSelectionScene.action('test5', (ctx) => {
@@ -79,19 +86,40 @@ testSelectionScene.action('test9', (ctx) => {
     ctx.session.current_task = -1;
 });
 
-testSelectionScene.action('test10', (ctx) => {
-    ctx.deleteMessage();
-    ctx.reply("Этот тест еще не добавлен")
-    ctx.scene.reenter(); 
-});
-
 testSelectionScene.action('test11', (ctx) => {
     ctx.deleteMessage();
-    ctx.reply("Этот тест еще не добавлен")
-    ctx.scene.reenter(); 
+    ctx.session.cur_test = 11;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
 });
 
+testSelectionScene.action('test12', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 12;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
 
+testSelectionScene.action('test20', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 20;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test21', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 21;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
+
+testSelectionScene.action('test30', (ctx) => {
+    ctx.deleteMessage();
+    ctx.session.cur_test = 30;
+    ctx.scene.enter('testsloving');
+    ctx.session.current_task = -1;
+});
 
 testSelectionScene.action('menu', (ctx) => {
     ctx.deleteMessage(); 
